@@ -1,4 +1,3 @@
-import boto3
 
 def clean_kms_keys(session):
     for key in list_keys(session, '/core/kms/default'):
