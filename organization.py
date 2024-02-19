@@ -19,7 +19,7 @@ class Organization():
     def get_all_member_accounts_by_ou_id(self, ou_id):
         member_accounts = []
         self._get_member_accounts_recursive(ou_id, member_accounts)
-        return jmespath.search("[?Status=='ACTIVE'].Id", member_accounts)
+        return jmespath.search("[?Status=='ACTIVE']", member_accounts)
 
     def _get_member_accounts_recursive(self, ou_id, member_accounts):
         paginator = self.client.get_paginator('list_accounts_for_parent')
@@ -45,7 +45,7 @@ class Organization():
             member_accounts.extend(response['Accounts'])
         
         accounts = [account for account in member_accounts if account['Tags'].get(tag_key) == tag_value]        
-        return jmespath.search("[?Status=='ACTIVE'].Id", accounts)
+        return jmespath.search("[?Status=='ACTIVE']", accounts)
 
     def get_all_member_accounts(self):
         paginator = self.client.get_paginator('list_accounts')
@@ -55,4 +55,4 @@ class Organization():
         for response in response_iterator:
             member_accounts.extend(response['Accounts'])
 
-        return jmespath.search(f"[?Id != '{self.account_id}' && Status == 'ACTIVE'].Id", member_accounts)
+        return jmespath.search(f"[?Id != '{self.account_id}' && Status == 'ACTIVE']", member_accounts)

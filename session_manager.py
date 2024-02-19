@@ -3,9 +3,9 @@ import boto3
 def session_generator(session, accounts, regions): 
     for account in accounts:
         for region in regions:
-            print("Account: " + account, end="   ")
+            print(account["Id"] + "  " + account["Name"], end="   ")
             print("Region: " + region)
-            yield assume_role(session, account, region)
+            yield assume_role(session, account["Id"], region)
 
 
 def assume_role(session, account_id, region):
